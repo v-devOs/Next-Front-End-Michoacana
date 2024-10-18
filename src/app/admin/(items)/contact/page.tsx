@@ -1,27 +1,40 @@
-import { AdminView } from '@/components/admin';
-import { Table } from '@/components/admin/dashboard/Table';
+import { Metadata } from 'next';
+import { AdminView, TableHeader, TableButtons } from '@/components/admin';
 import { Contact } from '@/interfaces/admin';
+import { getAllData } from '@/actions/admin/getData';
 
-
-const getDataContact = async () => {
-
-  const res = await fetch('http://localhost:8080/contact')
-
-  if (!res.ok)
-    throw new Error('Failed to fetch data')
-
-  return res.json()
-}
+export const metadata: Metadata = {
+  title: "Contactos de Sucursales",
+  description: "Información general sobre las sucursales",
+};
 
 const ContactAdmin = async () => {
-  const data: Contact[] = await getDataContact()
+  const data: Contact[] = await getAllData('contact');
+
+  const onClickButton = () => {
+
+  }
 
   return (
     <div>
       <AdminView title='Información de contacto sucursales' />
 
+      <table className="min-w-full ">
+        <TableHeader />
+        <tbody>
+          {
+            data.map((item, idx) => (
+              <tr key={idx}>
+                <td className="text-center text-sm font-medium text-gray-900" >{item.id_contact}</td>
+                <td className="text-center text-sm font-medium text-gray-900" >{item.email}</td>
+                <td className="text-center text-sm font-medium text-gray-900" >{item.active ? 'Activo' : 'Inactivo'}</td>
 
-      <Table items={data} />
+                <TableButtons />
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
 
     </div>
   )

@@ -1,4 +1,8 @@
-import React from 'react'
+
+
+interface Props {
+  onClickButton
+}
 
 export const TableButtons = () => {
   return (
