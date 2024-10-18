@@ -1,9 +1,10 @@
+import { AdminView } from "@/components/admin"
 
 const AdminPage = () => {
   return (
-    <main className="p-4">
-      AdminPage
-    </main>
+    <>
+      <AdminView title="Bienvenido" />
+    </>
   )
 }
 

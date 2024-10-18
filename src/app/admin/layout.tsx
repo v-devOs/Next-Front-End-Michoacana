@@ -14,7 +14,9 @@ const AdminLayout = ({ children }: Props) => {
       </div>
 
       <div className="col-span-10">
-        {children}
+        <main className="p-4">
+          {children}
+        </main>
       </div>
     </div>
   )
