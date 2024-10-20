@@ -7,6 +7,7 @@ const tableHeaders = [
   'Producto',
   'Price',
   'Sabor',
+  'Presentación',
   'Modificar',
   'Eliminar'
 ]
@@ -32,6 +33,7 @@ export const ProductTable = async () => {
               <td className="text-center text-sm font-medium text-gray-900" >{item.product}</td>
               <td className="text-center text-sm font-medium text-gray-900" >$ {item.price}</td>
               <td className="text-center text-sm font-medium text-gray-900" >{item.flavor}</td>
+              <td className="text-center text-sm font-medium text-gray-900" >{item.presentation}</td>
 
               <TableButtons id={item.id_product} />
             </tr>

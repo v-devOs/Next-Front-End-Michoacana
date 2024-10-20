@@ -1,9 +1,17 @@
+'use client';
+
+import { usePathname } from "next/navigation";
 
 interface Props {
   id: number
 }
 
 export const TableButtons = ({ id }: Props) => {
+
+  const path = usePathname()
+
+  console.log(path)
+
   return (
     <>
       <td className="text-center">
