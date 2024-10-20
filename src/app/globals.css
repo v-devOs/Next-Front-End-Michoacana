@@ -12,3 +12,7 @@ image {
   width: auto;
   height: auto;
 }
+
+tr {
+  height: 60px;
+}

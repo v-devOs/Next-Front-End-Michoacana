@@ -25,7 +25,7 @@ export const DirectionTable = ({ data }: Props) => {
           }
         </tr>
       </thead>
-      <tbody>
+      <tbody >
         {
           data.map((item, idx) => (
             <tr key={idx}>
