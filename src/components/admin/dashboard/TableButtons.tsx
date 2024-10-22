@@ -1,7 +1,10 @@
 'use client';
 
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { FaPencil, FaTrash } from "react-icons/fa6";
+
 
 interface Props {
   id: string
@@ -13,18 +16,18 @@ export const TableButtons = ({ id }: Props) => {
 
   return (
     <>
-      <td className="text-center">
+      <td className="flex justify-center gap-5 items-center">
         <Link href={`${path}/${id}`}
           // onClick={() => onClick('', item.id)}
-          className="middle mx-2 none center rounded-sm bg-green-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-green-500/20 transition-all hover:shadow-lg hover:shadow-green-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          className=""
         >
-          Modificar
+          <FaPencil color="green" size={20} />
         </Link>
         <Link href={`${path}/${id}`}
           // onClick={() => onClick('', item.id)}
-          className="middle mx-2 none center rounded-sm bg-red-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          className=""
         >
-          Eliminar
+          {<FaTrash color="red" size={20} />}
         </Link>
       </td>
     </>

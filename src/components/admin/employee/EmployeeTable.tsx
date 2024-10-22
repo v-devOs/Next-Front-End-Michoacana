@@ -15,8 +15,7 @@ const tableHeaders = [
   'Fecha Inicio',
   'Telefono',
   'Sucursal',
-  'Modificar',
-  'Eliminar'
+  'Acciones',
 ]
 
 
@@ -45,7 +44,7 @@ export const EmployeeTable = ({ data }: Props) => {
               <td className="text-center text-sm font-medium text-gray-900" >{item.tel}</td>
               <td className="text-center text-sm font-medium text-gray-900" >{item.branch.name}</td>
 
-              <TableButtons id={item.id_employee} />
+              <TableButtons id={`${item.id_employee}`} />
             </tr>
           ))
         }
