@@ -1,5 +1,5 @@
 import { getAllData } from '@/actions/admin/getData'
-import { AdminView } from '@/components/admin'
+import { AdminView, Table } from '@/components/admin'
 import { EmployeeTable } from '@/components/admin/employee'
 import { Employee } from '@/interfaces/admin/Employee'
 import { Metadata } from 'next'
@@ -12,13 +12,16 @@ const AdminEmployeePage = async () => {
 
   const data: Employee[] = await getAllData('employee')
 
+  console.log({ data })
+
   return (
 
     <div>
       {/* TODO: REALIAZAR VALIDACIÓN DE ROL PARA MOSTRAR USUARIOS */}
       <AdminView title='Empleados activos' />
 
-      <EmployeeTable data={data} />
+      <Table items={data} />
+      {/* <EmployeeTable data={data} /> */}
     </div>
   )
 }
