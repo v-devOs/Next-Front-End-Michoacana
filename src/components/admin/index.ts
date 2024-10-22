@@ -5,3 +5,5 @@ export * from "./contact";
 
 // Componentes
 export * from "./SidebarItem";
+export * from "./Table";
+export * from "./TableItem";

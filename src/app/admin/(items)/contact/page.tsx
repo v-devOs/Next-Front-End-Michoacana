@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import { AdminView, ContactTable } from '@/components/admin';
 import { getAllData } from '@/actions/admin/getData';
 import { Contact } from '@/interfaces/admin';
+import { Table } from '@/components/admin/Table';
 
 export const metadata: Metadata = {
   title: "Contactos de Sucursales",
@@ -16,7 +17,8 @@ const ContactAdmin = async () => {
     <div>
       <AdminView title='Información de contacto sucursales' />
 
-      <ContactTable data={data} />
+      {/* <ContactTable data={data} /> */}
+      <Table items={data} />
     </div>
   )
 }

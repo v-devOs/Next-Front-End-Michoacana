@@ -4,6 +4,8 @@ const AdminPage = () => {
   return (
     <>
       <AdminView title="Bienvenido" />
+
+      {/* <Table items={} /> */}
     </>
   )
 }

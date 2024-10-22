@@ -1,6 +1,6 @@
 import { getAllData } from "@/actions/admin/getData"
 import { AdminView } from "@/components/admin"
-import { BranchTable } from "@/components/admin/branch"
+import { Table } from "@/components/admin/Table"
 import { Branch } from "@/interfaces/admin"
 import { Metadata } from "next"
 
@@ -18,7 +18,9 @@ const AdminBranchPage = async () => {
     <div>
       <AdminView title="Información Sucursales" />
 
-      <BranchTable data={data} />
+      <Table items={data} />
+
+      {/* <BranchTable data={data} /> */}
     </div>
   )
 }
