@@ -15,16 +15,14 @@ const getTableHeaders = <T,>(items: T[]) => {
   return headers;
 }
 
-const getIdFromItem = <T,>(items: T[], keyId: string) => {
-  const item: any = items[0]
-
-  return item[keyId]
-}
+const getIdFromItem = <T,>(items: T[], keyId: keyof T) => {
+  return items[0][keyId];
+};
 
 export const Table = <T,>({ items, fieldsOmmit }: Props<T>) => {
   const tableHeaders: string[] = getTableHeaders(items).concat(['acciones'])
-  const keyIdItem = tableHeaders.find(header => header.includes('id'))
-  const idItem = getIdFromItem(items, keyIdItem!)
+  const keyIdItem = tableHeaders.find(header => header.includes('id')) as keyof T
+  const idItem = getIdFromItem(items, keyIdItem)
 
 
   return (
