@@ -8,7 +8,7 @@ interface Props {
 
 export const Modal = ({ children, img }: Props) => {
   return (
-    <div className="bg-gray-100 rounded-md flex items-center justify-center">
+    <div className="bg-gray-100 rounded-md flex items-center justify-evenly">
       <div>
         {children}
       </div>

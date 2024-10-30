@@ -15,7 +15,7 @@ export const Form = ({ inputs }: Props) => {
       <div className="relative sm:w-96 mx-auto text-center">
         <div className="mt-4 bg-white shadow-md rounded-lg text-left">
           <div className="h-2 bg-purple-400 rounded-t-md"></div>
-          <form action="" className="px-8 py-6">
+          <form action="/" className="px-8 py-6">
             {
               inputs.map(input => (
                 <Input key={input.label} input={input} />
