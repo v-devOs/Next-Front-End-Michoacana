@@ -1,14 +1,12 @@
 'use client';
 
-import Image from 'next/image';
 import React, { useState } from 'react';
 
-const images = [
-  '/img/carousel_1.png',
-  '/img/carousel_2.png',
-];
+interface Props {
+  images: string[];
+}
 
-export const Carousel = () => {
+export const Carousel = ({ images }: Props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handlePrev = () => {
@@ -27,13 +25,25 @@ export const Carousel = () => {
     <div className="relative w-full mx-auto">
       <div className="relative overflow-hidden shadow-lg w-full h-64 sm:h-80 md:h-96 lg:h-[500px]">
         {images.map((img, index) => (
-          <Image
+          <div
             key={index}
-            src={img}
-            alt={`Slide ${index + 1}`}
-            fill
-            className={`object-cover w-full h-full transition-opacity duration-700 ${index === currentIndex ? 'opacity-100' : 'opacity-0'}`}
-          />
+            style={{
+              backgroundImage: `url(${img})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+            className={`absolute flex items-center justify-center top-0 left-0 w-full h-full transition-opacity duration-700 ${index === currentIndex ? 'opacity-100' : 'opacity-0'}`}
+          >
+
+            <div className="backdrop-blur-lg text-center m-20 bg-white/30 border border-white/20 rounded-md p-6 shadow-lg">
+              <h1 className='text-8xl font-bold font-mono text-pink-500'>Paleterias la Michoacana</h1>
+              <p className='text-xl'>
+                Descubre el sabor del verano en cada bocado. Nuestra paletería ofrece una variedad de
+                paletas frescas y artesanales, hechas con frutas naturales y mucho amor. ¡Ven y disfruta de una explosión de sabores únicos!
+              </p>
+            </div>
+
+          </div>
         ))}
       </div>
 
