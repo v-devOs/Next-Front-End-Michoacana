@@ -1,3 +1,6 @@
+import { Contact } from "./Contact";
+import { Direction } from "./Direction";
+
 export interface Branch {
   id_branch: number;
   name: string;
@@ -9,18 +12,18 @@ export interface Branch {
   contact: Contact;
 }
 
-export interface Contact {
-  id_contact: number;
-  tel: string;
-  email: string;
-  instagram: string;
-  facebook: string;
-  active: boolean;
-}
+// export interface Contact {
+//   id_contact: number;
+//   tel: string;
+//   email: string;
+//   instagram: string;
+//   facebook: string;
+//   active: boolean;
+// }
 
-export interface Direction {
-  id_direction: number;
-  zone: string;
-  active: boolean;
-  street: string;
-}
+// export interface Direction {
+//   id_direction: number;
+//   zone: string;
+//   active: boolean;
+//   street: string;
+// }

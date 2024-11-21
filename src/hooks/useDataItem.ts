@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 export const useDataItem = <T>(
   endpoint: string,
   id: string,
-  initialState: T
+  initialState?: T
 ) => {
   const [dataItem, setDataItem] = useState(initialState);
 

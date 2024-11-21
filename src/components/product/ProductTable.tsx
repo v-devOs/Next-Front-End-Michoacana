@@ -16,7 +16,7 @@ export const ProductTable = async () => {
   const data: Product[] = await getAllData('product')
   return (
     <table className="min-w-full ">
-      <thead className="bg-gray-400">
+      <thead className="bg-purple-400">
         <tr>
           {
             tableHeaders.map(tableHead => (
@@ -35,7 +35,7 @@ export const ProductTable = async () => {
               <td className="text-center text-sm font-medium text-gray-900" >{item.flavor}</td>
               <td className="text-center text-sm font-medium text-gray-900" >{item.presentation}</td>
 
-              <TableButtons id={item.id_product} />
+              <TableButtons id={`${item.id_product}`} />
             </tr>
           ))
         }

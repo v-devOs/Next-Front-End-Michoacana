@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .custom-table tbody td tr {
+    @apply bg-sky-400;
+  }
+}
+
 body {
   color: var(--foreground);
   background: var(--background);

@@ -27,7 +27,7 @@ export const Table = <T,>({ items, fieldsOmmit }: Props<T>) => {
 
   return (
     <table className="min-w-full ">
-      <thead className="bg-gray-400">
+      <thead className="bg-purple-400">
         <tr>
           {
             tableHeaders.filter(header => !fieldsOmmit?.includes(header)).map(tableHead => (

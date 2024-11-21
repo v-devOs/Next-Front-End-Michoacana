@@ -22,7 +22,7 @@ const tableHeaders = [
 export const EmployeeTable = ({ data }: Props) => {
   return (
     <table className="min-w-full ">
-      <thead className="bg-gray-400">
+      <thead className="bg-purple-400">
         <tr>
           {
             tableHeaders.map(tableHead => (

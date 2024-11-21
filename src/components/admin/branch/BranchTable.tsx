@@ -21,7 +21,7 @@ const headers = [
 export const BranchTable = ({ branches }: Props) => {
   return (
     <table className="min-w-full">
-      <thead className="bg-gray-400">
+      <thead className="bg-purple-400">
         <tr>
           {
             headers.map(header => (
