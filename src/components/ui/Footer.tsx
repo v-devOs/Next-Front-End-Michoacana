@@ -1,8 +1,14 @@
-import React from 'react';
+'use client'
+import { usePathname } from 'next/navigation';
 import { FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa6';
 
-
 export const Footer = () => {
+
+  const path = usePathname()
+
+  if (path.includes('admin'))
+    return <></>
+
   return (
     <footer className="bg-gray-800 text-white py-8">
       <div className="container mx-auto px-4">

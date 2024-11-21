@@ -1,15 +1,14 @@
 import { getAllData } from "@/actions/admin/getData"
 import { Product } from "@/interfaces/admin"
-import { TableButtons } from "../admin"
+import { TableButtons } from ".."
 
 const tableHeaders = [
   'Id',
   'Producto',
-  'Price',
+  'Precio',
   'Sabor',
   'Presentación',
-  'Modificar',
-  'Eliminar'
+  'Acciones'
 ]
 
 export const ProductTable = async () => {

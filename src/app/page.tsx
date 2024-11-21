@@ -1,4 +1,5 @@
-import { Carousel } from "@/components/landing";
+import { CardGrid, Carousel } from "@/components/landing";
+import { Product } from "@/interfaces/admin";
 import { Metadata } from "next";
 import Image from "next/image";
 
@@ -6,6 +7,43 @@ import Image from "next/image";
 export const metadata: Metadata = {
   title: 'Paleteria Michoacana',
 }
+
+const products: Product[] = [
+  {
+    id_product: 1,
+    price: 25.99,
+    product: "Helado de Chocolate",
+    type: "Postre",
+    active: true,
+    flavor: "Chocolate",
+    presentation: "Cono",
+    description: "Delicioso helado de chocolate en un crujiente cono.",
+    product_image_url: "/img/icon.png"
+  },
+  {
+    id_product: 2,
+    price: 19.99,
+    product: "Paleta de Fresa",
+    type: "Postre",
+    active: true,
+    flavor: "Fresa",
+    presentation: "Paleta",
+    description: "Refrescante paleta de fresa elaborada con fruta natural.",
+    product_image_url: "/img/icon.png"
+  },
+  {
+    id_product: 3,
+    price: 29.99,
+    product: "Pastel de Zanahoria",
+    type: "Repostería",
+    active: false,
+    flavor: "Zanahoria",
+    presentation: "Porción",
+    description: "Esponjoso pastel de zanahoria con un toque de canela y nuez.",
+    product_image_url: "/img/icon.png"
+  }
+];
+
 
 
 export default function Home() {
@@ -62,17 +100,13 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="p-4">
+        <section className="p-4" id="flavors">
           <h2 className="text-5xl font-bold font-mono text-pink-500 mt-8 mb-10">Conoce nuestros sabores más vendidos 🍨</h2>
 
           <div className="">
             <div className="">
+              <CardGrid products={products} />
             </div>
-
-            <div>
-              Información general
-            </div>
-
           </div>
         </section>
       </div>
