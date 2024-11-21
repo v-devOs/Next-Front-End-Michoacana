@@ -16,7 +16,7 @@ export const TableButtons = ({ id }: Props) => {
 
   return (
     <>
-      <td className="flex justify-center gap-5 items-center">
+      <td className="flex justify-center py-4 gap-5 items-center">
         <Link href={`${path}/${id}`}
           // onClick={() => onClick('', item.id)}
           className=""

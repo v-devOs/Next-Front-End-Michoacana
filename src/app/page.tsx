@@ -13,7 +13,7 @@ export default function Home() {
     <main>
       <section>
         <Carousel images={['/img/carousel_1.png', '/img/carousel_2.png']}>
-          <div className="backdrop-blur-lg text-center m-20 bg-white/30 border border-white/20 rounded-md p-6 shadow-lg">
+          <div className="backdrop-blur-lg text-center m-20 bg-white/30 border border-white/20 lrounded-md p-6 shadow-lg">
             <h1 className='text-8xl font-bold font-mono text-pink-500'>Paleterias la Michoacana</h1>
             <p className='text-xl'>
               Descubre el sabor del verano en cada bocado. Nuestra paletería ofrece una variedad de
