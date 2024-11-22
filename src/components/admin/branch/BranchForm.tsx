@@ -10,9 +10,10 @@ import { useForm } from 'react-hook-form'
 interface Props {
   title: string
   data?: Branch
+  isPostForm?: boolean
 }
 
-export const BranchForm = ({ title, data }: Props) => {
+export const BranchForm = ({ title, data, isPostForm = true }: Props) => {
   // const [contacts, setContact] = useState<Contact[]>([])
 
   const { register, handleSubmit, formState: { }, reset } = useForm<Branch>({
@@ -45,7 +46,7 @@ export const BranchForm = ({ title, data }: Props) => {
   //   loadContacts()
   // }, [])
 
-  if (!data) {
+  if (!data && isPostForm) {
     return <Loading />
   }
 
@@ -104,7 +105,7 @@ export const BranchForm = ({ title, data }: Props) => {
             </select> */}
 
             <div className="flex justify-between items-baseline">
-              <button type="submit" className="mt-4 bg-purple-500 text-white py-2 px-6 rounded-md hover:bg-purple-600 ">Actualizar</button>
+              <button type="submit" className="mt-4 bg-purple-500 text-white py-2 px-6 rounded-md hover:bg-purple-600 ">Enviar</button>
             </div>
           </form>
         </div>

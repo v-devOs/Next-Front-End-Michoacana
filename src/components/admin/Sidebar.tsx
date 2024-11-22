@@ -41,7 +41,7 @@ const sidebarItems: Item[] = [
 export const Sidebar = () => {
   return (
     <aside>
-      <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 h-[calc(100vh)] w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
+      <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 min-h-[100vh] w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
         <div className="flex justify-center">
           <Image className="rounded-sm" src={"/img/icon.png"} alt="Icono Michoacana" width={250} height={100} />
         </div>

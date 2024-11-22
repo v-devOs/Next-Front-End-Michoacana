@@ -18,7 +18,7 @@ const products: Product[] = [
     flavor: "Chocolate",
     presentation: "Cono",
     description: "Delicioso helado de chocolate en un crujiente cono.",
-    product_image_url: "/img/icon.png"
+    product_image_url: "/img/product_1.jpg"
   },
   {
     id_product: 2,

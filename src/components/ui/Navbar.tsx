@@ -7,7 +7,7 @@ export const Navbar = () => {
 
   const path = usePathname();
 
-  if (path.includes('admin'))
+  if (path.includes('admin') || path.includes('auth'))
     return <></>
 
   return (
@@ -18,7 +18,7 @@ export const Navbar = () => {
         </div>
 
         <div className="flex space-x-6">
-          <Link href="#home" className="text-yellow-500 hover:text-yellow-400 transition-colors font-semibold">Inicio</Link>
+          <Link href="/" className="text-yellow-500 hover:text-yellow-400 transition-colors font-semibold">Inicio</Link>
           <Link href="#flavors" className="text-mint-500 hover:text-mint-400 transition-colors font-semibold">Sabores</Link>
           <Link href="#about" className="text-pink-500 hover:text-pink-400 transition-colors font-semibold">Nosotros</Link>
           <Link href="#contact" className="text-yellow-500 hover:text-yellow-400 transition-colors font-semibold">Contacto</Link>

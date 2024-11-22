@@ -67,6 +67,7 @@ export const ProductForm = ({ title, data }: Props) => {
                   onChange={onFileSelected}
                   className='border w-full px-3 py-2 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md'
                 />
+
               </div>
             </div>
 

@@ -11,9 +11,9 @@ export const Card = ({ product }: Props) => {
       <Image
         src={product.product_image_url}
         alt={product.product}
-        width={400}
-        height={400}
-        className='w-full h-40 object-cover rounded-md mb-4'
+        width={300}
+        height={300}
+        className='w-full object-cover rounded-md mb-4'
       />
       <h2 className="text-2xl font-bold text-pink-600 mb-2">{product.product}</h2>
       <p className="text-pink-500 mb-4">{product.description}</p>

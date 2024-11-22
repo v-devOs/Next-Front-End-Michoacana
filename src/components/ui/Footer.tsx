@@ -6,7 +6,7 @@ export const Footer = () => {
 
   const path = usePathname()
 
-  if (path.includes('admin'))
+  if (path.includes('admin') || path.includes('auth'))
     return <></>
 
   return (
