@@ -5,6 +5,7 @@ import { ChangeEvent } from "react"
 
 import { Loading } from "@/components/ui"
 import { Product } from "@/interfaces/admin"
+import { uploadImage } from '../../../lib/cloudinary/index';
 
 interface Props {
   title: string,
@@ -30,12 +31,17 @@ export const ProductForm = ({ title, data }: Props) => {
     if (data) reset(data)
   }, [data, reset])
 
-  const onFileSelected = (event: ChangeEvent<HTMLInputElement>) => {
+  const onFileSelected = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    // Aquí puedes manejar la carga del archivo
-    console.log(file);
+    try {
+      const publicId = await uploadImage(file);
+      console.log('Imagen subida exitosamente:', publicId);
+      // Aquí puedes actualizar el estado del formulario con la URL de la imagen
+    } catch (error) {
+      console.error('Error al subir la imagen:', error);
+    }
   }
 
   if (!data)

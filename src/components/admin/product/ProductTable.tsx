@@ -1,6 +1,6 @@
-import { getAllData } from "@/actions/admin/getData"
 import { Product } from "@/interfaces/admin"
 import { TableButtons } from ".."
+import { getAllData } from "@/actions/general/getData"
 
 const tableHeaders = [
   'Id',

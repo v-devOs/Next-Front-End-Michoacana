@@ -1,10 +1,12 @@
 'use client'
 
+import { useEffect } from "react"
+import Image from "next/image"
+
+import { useForm } from "react-hook-form"
+
 import { Loading } from "@/components/ui"
 import { Employee } from "@/interfaces/admin"
-import Image from "next/image"
-import { useEffect } from "react"
-import { useForm } from "react-hook-form"
 
 
 interface Props {
