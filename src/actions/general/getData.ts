@@ -1,9 +1,7 @@
 "use server";
 
 export const getAllData = async (endpoint: string) => {
-  const url = `${
-    process.env.NESTJS_BACKEND || "http://localhost:8080"
-  }/${endpoint}`;
+  const url = `${process.env.NESTJS_BACKEND}/${endpoint}`;
 
   const res = await fetch(url, {
     cache: "no-cache",
