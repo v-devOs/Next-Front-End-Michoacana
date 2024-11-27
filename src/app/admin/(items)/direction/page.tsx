@@ -1,4 +1,5 @@
-import { getAllData } from "@/actions/admin/getData";
+
+import { getAllData } from "@/actions/general/getData";
 import { AdminView, Table } from "@/components/admin";
 import { Direction } from "@/interfaces/admin";
 import { Metadata } from "next";

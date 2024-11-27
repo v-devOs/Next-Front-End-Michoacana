@@ -1,4 +1,4 @@
-import { getAllData } from "@/actions/admin/getData"
+import { getAllData } from "@/actions/general/getData"
 import { AdminView } from "@/components/admin"
 import { BranchTable } from "@/components/admin/branch"
 import { Branch } from "@/interfaces/admin"
