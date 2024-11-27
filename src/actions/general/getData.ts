@@ -1,7 +1,10 @@
 "use server";
 
 export const getAllData = async (endpoint: string) => {
-  const url = `${process.env.NESTJS_BACKEND}/${endpoint}`;
+  const urlBackend = process.env.NESTJS_BACKEND;
+
+  if (!urlBackend) throw new Error("Error on create url backend");
+  const url = `${urlBackend}/${endpoint}`;
 
   const res = await fetch(url, {
     cache: "no-cache",
