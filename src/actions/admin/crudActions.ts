@@ -2,9 +2,7 @@
 import axios from "axios";
 
 export const getDataByid = async (endpoint: string, id: string) => {
-  const urlApi = `${
-    process.env.NESTJS_BACKEND || "http://localhost:8080"
-  }/${endpoint}/${id}`;
+  const urlApi = `${process.env.NESTJS_BACKEND}/${endpoint}/${id}`;
 
   const res = await fetch(urlApi, {
     cache: "no-cache",
@@ -16,9 +14,7 @@ export const getDataByid = async (endpoint: string, id: string) => {
 };
 
 export const createData = async <T>(data: T, endpoint: string, id: string) => {
-  const urlApi = `${
-    process.env.NESTJS_BACKEND || "http://localhost:8080"
-  }/${endpoint}/${id}`;
+  const urlApi = `${process.env.NESTJS_BACKEND}/${endpoint}/${id}`;
 
   try {
     const response = await axios.post<T>(urlApi, data);
@@ -29,9 +25,7 @@ export const createData = async <T>(data: T, endpoint: string, id: string) => {
 };
 
 export const updateData = async <T>(data: T, endpoint: string, id: string) => {
-  const urlApi = `${
-    process.env.NESTJS_BACKEND || "http://localhost:8080"
-  }/${endpoint}/${id}`;
+  const urlApi = `${process.env.NESTJS_BACKEND}/${endpoint}/${id}`;
 
   try {
     const response = await axios.patch<T>(urlApi, data);
@@ -42,9 +36,7 @@ export const updateData = async <T>(data: T, endpoint: string, id: string) => {
 };
 
 export const deleteData = async (endpoint: string, id: string) => {
-  const urlApi = `${
-    process.env.NESTJS_BACKEND || "http://localhost:8080"
-  }/${endpoint}/${id}`;
+  const urlApi = `${process.env.NESTJS_BACKEND}/${endpoint}/${id}`;
 
   try {
     const response = await axios.delete(urlApi);
