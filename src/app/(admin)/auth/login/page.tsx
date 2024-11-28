@@ -1,5 +1,9 @@
 'use client'
 
+import { Loading } from "@/components/ui"
+import { AuthContext } from "@/context/auth"
+import { redirect } from "next/navigation"
+import { useContext, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 
 
@@ -9,17 +13,38 @@ interface AuthData {
 }
 
 const LoginPage = () => {
+  const { isLoggedIn, loginUser } = useContext(AuthContext)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [isloading, setIsloading] = useState(false);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<AuthData>()
 
-  const onSubmit = (data: AuthData) => {
-    console.log({ data })
+  const onSubmit = async (data: AuthData) => {
+    setErrorMessage(null)
+    setIsloading(current => !current)
+    const success = await loginUser(data.email, data.password)
+    setIsloading(current => !current)
+
+    if (!success) {
+      setErrorMessage('Credenciales incorrectas')
+    }
   }
 
+  useEffect(() => {
+    if (isLoggedIn) {
+      redirect('/admin')
+    }
+  }, [isLoggedIn])
+
+  if (isloading)
+    return <Loading />
+
   return (
+
     <div className="relative flex min-h-screen text-gray-800 antialiased flex-col justify-center overflow-hidden bg-gray">
       <div className="relative sm:w-96 mx-auto text-center">
         <span className="text-2xl font-light ">Inicia Sesión</span>
@@ -48,16 +73,20 @@ const LoginPage = () => {
               type="password"
               {...register('password', {
                 required: 'Este campo es requerido',
-                minLength: {
-                  value: 8,
-                  message: 'La contraseña debe tener al menos 8 caracteres'
-                }
+                // minLength: {
+                //   value: 8,
+                //   message: 'La contraseña debe tener al menos 8 caracteres'
+                // }
               })}
               placeholder='segura'
               className='border w-full h-5 px-3 py-5 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md'
             />
             {errors.password && (
               <p className="text-red-500 text-sm mb-2">{errors.password.message}</p>
+            )}
+
+            {errorMessage && (
+              <p className="text-red-500 text-sm mt-2 mb-2">{errorMessage}</p>
             )}
 
             <div className="flex justify-between items-baseline">

@@ -1,13 +1,9 @@
 import { User } from "@/interfaces/general";
-import { Employee } from "@/interfaces/admin";
+import { AuthState } from "./AuthProvider";
 
-export interface AuthState {
-  isLoggedIn: boolean;
-  user?: User;
-  employee?: Employee;
-}
-
-export type AuthActionType = { type: "Login" } | { type: "Logout" };
+export type AuthActionType =
+  | { type: "Login"; payload: User }
+  | { type: "Logout" };
 
 export const authReducer = (
   state: AuthState,
@@ -18,13 +14,13 @@ export const authReducer = (
       return {
         ...state,
         isLoggedIn: true,
+        user: action.payload,
       };
     case "Logout":
       return {
         ...state,
         isLoggedIn: false,
         user: undefined,
-        employee: undefined,
       };
     default:
       return state;
