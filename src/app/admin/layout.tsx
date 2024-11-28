@@ -1,4 +1,5 @@
 import { Sidebar } from "@/components/admin"
+import { AuthProvider } from "@/context/auth/AuthProvider"
 import { ReactNode } from "react"
 
 interface Props {
@@ -7,18 +8,21 @@ interface Props {
 
 const AdminLayout = ({ children }: Props) => {
   return (
-    <div className="grid grid-cols-12">
+    <AuthProvider>
 
-      <div className="col-span-2">
-        <Sidebar />
-      </div>
+      <div className="grid grid-cols-12">
 
-      <div className="col-span-10">
-        <main className="p-4">
-          {children}
-        </main>
+        <div className="col-span-2">
+          <Sidebar />
+        </div>
+
+        <div className="col-span-10">
+          <main className="p-4">
+            {children}
+          </main>
+        </div>
       </div>
-    </div>
+    </AuthProvider>
   )
 }
 

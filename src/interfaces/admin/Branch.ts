@@ -11,19 +11,3 @@ export interface Branch {
   direction: Direction;
   contact: Contact;
 }
-
-// export interface Contact {
-//   id_contact: number;
-//   tel: string;
-//   email: string;
-//   instagram: string;
-//   facebook: string;
-//   active: boolean;
-// }
-
-// export interface Direction {
-//   id_direction: number;
-//   zone: string;
-//   active: boolean;
-//   street: string;
-// }
