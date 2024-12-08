@@ -16,11 +16,11 @@ export const getDataByid = async (endpoint: string, id: string) => {
   return res.json();
 };
 
-export const createData = async <T>(data: T, endpoint: string, id: string) => {
+export const createData = async <T>(data: T, endpoint: string) => {
   const urlBackend = process.env.NESTJS_BACKEND;
 
   if (!urlBackend) throw new Error("Error on construct url backend");
-  const urlApi = `${urlBackend}/${endpoint}/${id}`;
+  const urlApi = `${urlBackend}/${endpoint}/`;
 
   try {
     const response = await axios.post<T>(urlApi, data);
@@ -33,8 +33,12 @@ export const createData = async <T>(data: T, endpoint: string, id: string) => {
 export const updateData = async <T>(data: T, endpoint: string, id: string) => {
   const urlBackend = process.env.NESTJS_BACKEND;
 
+  console.log("Hola llegue");
+
   if (!urlBackend) throw new Error("Error on construct url backend");
   const urlApi = `${urlBackend}/${endpoint}/${id}`;
+
+  console.log(urlApi);
 
   try {
     const response = await axios.patch<T>(urlApi, data);

@@ -2,7 +2,7 @@
 
 import { Loading } from "@/components/ui"
 import { AuthContext } from "@/context/auth"
-import { redirect } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { useContext, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 
@@ -14,8 +14,8 @@ interface AuthData {
 
 const LoginPage = () => {
   const { isLoggedIn, loginUser } = useContext(AuthContext)
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [isloading, setIsloading] = useState(false);
+  const router = useRouter()
 
   const {
     register,
@@ -24,21 +24,19 @@ const LoginPage = () => {
   } = useForm<AuthData>()
 
   const onSubmit = async (data: AuthData) => {
-    setErrorMessage(null)
+
     setIsloading(current => !current)
-    const success = await loginUser(data.email, data.password)
+    await loginUser(data.email, data.password)
     setIsloading(current => !current)
 
-    if (!success) {
-      setErrorMessage('Credenciales incorrectas')
-    }
   }
 
   useEffect(() => {
     if (isLoggedIn) {
-      redirect('/admin')
+
+      router.replace('/admin')
     }
-  }, [isLoggedIn])
+  }, [isLoggedIn, router])
 
   if (isloading)
     return <Loading />
@@ -85,9 +83,7 @@ const LoginPage = () => {
               <p className="text-red-500 text-sm mb-2">{errors.password.message}</p>
             )}
 
-            {errorMessage && (
-              <p className="text-red-500 text-sm mt-2 mb-2">{errorMessage}</p>
-            )}
+
 
             <div className="flex justify-between items-baseline">
               <button type="submit" className="mt-4 bg-purple-500 text-white py-2 px-6 rounded-md hover:bg-purple-600 ">

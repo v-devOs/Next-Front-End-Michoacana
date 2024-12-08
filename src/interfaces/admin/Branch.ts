@@ -11,3 +11,13 @@ export interface Branch {
   direction: Direction;
   contact: Contact;
 }
+
+export interface BranchPost {
+  name?: string;
+  date_start?: Date | string;
+  active?: boolean;
+  hour_start?: number;
+  hour_end?: number;
+  id_direction?: number;
+  id_contact?: number;
+}

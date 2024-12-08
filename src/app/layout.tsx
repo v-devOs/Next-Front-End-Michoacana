@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Navbar } from "@/components/ui";
 import { Footer } from "@/components/ui/Footer";
+import { AuthProvider } from "@/context/auth/AuthProvider";
 
 
 export const metadata: Metadata = {
@@ -17,12 +18,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <link rel="icon" href="/img/icon_title.ico" />
-
       <body>
         <Navbar />
 
-        {children}
+        <AuthProvider >
 
+          {children}
+        </AuthProvider>
         <Footer />
       </body>
     </html>

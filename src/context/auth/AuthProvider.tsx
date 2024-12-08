@@ -4,7 +4,7 @@ import { AuthContext } from './AuthContext';
 import { authReducer } from './authReducer';
 import Cookies from 'js-cookie';
 import { login } from '@/actions/auth/login';
-import { User } from '@/interfaces/general';
+import { UserClass } from '@/interfaces/general';
 
 interface Props {
   children: React.ReactNode;
@@ -12,12 +12,14 @@ interface Props {
 
 export interface AuthState {
   isLoggedIn: boolean;
-  user?: User;
+  user?: UserClass;
+  token?: string
 }
 
 const Auth_INITIAL_STATE: AuthState = {
   isLoggedIn: false,
-  user: undefined
+  user: undefined,
+  token: ''
 }
 
 export const AuthProvider: FC<Props> = ({ children }) => {
@@ -35,7 +37,7 @@ export const AuthProvider: FC<Props> = ({ children }) => {
     try {
       const data = await login(email, password);
       Cookies.set('token', data.access_token);
-      dispatch({ type: 'Login', payload: data });
+      dispatch({ type: 'Login', payload: data.user });
       return true;
     } catch (error) {
       console.log('Error en el logeo:', error);

@@ -1,11 +1,18 @@
 'use client'
 
+import { useEffect, useState, } from "react"
 
+import { useRouter, useSearchParams } from "next/navigation"
+
+import Swal from "sweetalert2";
+
+import { createData, updateData } from "@/actions/admin/crudActions"
 import { Loading } from "@/components/ui"
 
-import { Branch } from "@/interfaces/admin"
-import { useEffect } from "react"
+import { Branch, BranchPost, Contact, Direction } from "@/interfaces/admin"
 import { useForm } from 'react-hook-form'
+import { getAllData } from "@/actions/general/getData";
+
 
 interface Props {
   title: string
@@ -14,37 +21,96 @@ interface Props {
 }
 
 export const BranchForm = ({ title, data, isPostForm = true }: Props) => {
-  // const [contacts, setContact] = useState<Contact[]>([])
+  const [contacts, setContacts] = useState<Contact[]>()
+  const [directions, setDirections] = useState<Direction[]>()
 
-  const { register, handleSubmit, formState: { }, reset } = useForm<Branch>({
-    defaultValues: {
-      ...data
+  const searchParams = useSearchParams()
+  const router = useRouter()
+
+  const { register, handleSubmit, formState: { }, reset } = useForm<Branch>()
+
+  const onSubmit = async (dataForm: Branch) => {
+
+    console.log({ dataForm })
+
+    try {
+      if (searchParams.get('action') === 'update') {
+
+        const dataToSend: BranchPost = {
+          name: dataForm.name,
+          date_start: dataForm.date_start,
+          hour_start: +dataForm.hour_start,
+          hour_end: +dataForm.hour_end,
+          id_contact: +dataForm.contact.email,
+        }
+
+        console.log({ dataToSend })
+
+        await updateData<BranchPost>(dataToSend, 'branch', `${dataForm.id_branch}`)
+        Swal.fire({
+          title: 'Success',
+          text: 'Sucursal actualizada correctamente',
+          icon: 'success'
+        })
+      } else {
+
+        const dataToSend: BranchPost = {
+          name: dataForm.name,
+          date_start: new Date().toISOString(),
+          hour_start: +dataForm.hour_start,
+          hour_end: +dataForm.hour_end,
+          id_contact: +dataForm.contact.email,
+          id_direction: +dataForm.direction.street
+        }
+
+        await createData<BranchPost>(dataToSend, 'branch')
+        Swal.fire({
+          title: 'Success',
+          text: 'Sucursal creada correctamente',
+          icon: 'success'
+        })
+
+        router.push('/admin/branch')
+      }
+
+    } catch (error) {
+      Swal.fire({
+        title: 'Error',
+        text: `Error al ${searchParams.get('action') ? 'actualizar' : 'crear'} sucursal`,
+        icon: 'error'
+      })
+      console.log('Error al crear registro', error)
     }
-  })
-
-  const onSubmit = (data: Branch) => {
-    // TODO: INTEGRAR EL SERVER ACTION PARA IMPACTAR LA BASE DE DATOS
-    console.log({ data }, 'Data del formulario')
   }
+
+  useEffect(() => {
+    const loadContacts = async () => {
+      try {
+        const contactsData = await getAllData('contact')
+        setContacts(contactsData)
+      } catch (error) {
+        console.error('Error loading directions:', error)
+      }
+    }
+
+    const loadDirections = async () => {
+      try {
+        const directionsData = await getAllData('direction')
+        setDirections(directionsData)
+      } catch (error) {
+        console.log('Error on loading directions: ', error)
+      }
+    }
+
+    loadContacts()
+    loadDirections()
+  }, [])
 
   useEffect(() => {
     if (data)
       reset(data)
 
   }, [data, reset])
-
-  // useEffect(() => {
-  //   const loadContacts = async () => {
-  //     try {
-  //       const contactsData = await getAllData('contact')
-  //       setContact(contactsData)
-  //     } catch (error) {
-  //       console.error('Error loading directions:', error)
-  //     }
-  //   }
-
-  //   loadContacts()
-  // }, [])
 
   if (!data && isPostForm) {
     return <Loading />
@@ -91,18 +157,34 @@ export const BranchForm = ({ title, data, isPostForm = true }: Props) => {
               className="border h-5 px-3 py-5 mb-4 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-"
             />
 
-            {/* <label className="block font-semibold">Datos de Contacto</label>
+            <label className="block font-semibold">Datos de Contacto</label>
             <select
               {...register('contact.email', { required: 'Este campo es requerido' })}
               className="border w-full px-3 py-2 mb-4 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md"
             >
-              <option value="">Seleccione una dirección</option>
-              {contacts.map((contact) => (
+              <option value="">Seleccione un contacto</option>
+              {contacts?.map((contact) => (
                 <option key={contact.id_contact} value={contact.id_contact}>
                   {contact.email}
                 </option>
               ))}
-            </select> */}
+            </select>
+
+            {
+              !searchParams.get('action') && (
+                <select
+                  {...register('direction.street', { required: 'Este campo es requerido' })}
+                  className="border w-full px-3 py-2 mb-4 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md"
+                >
+                  <option value="">Seleccione un contacto</option>
+                  {directions?.map((direction) => (
+                    <option key={direction.id_direction} value={direction.id_direction}>
+                      {direction.street}
+                    </option>
+                  ))}
+                </select>
+              )
+            }
 
             <div className="flex justify-between items-baseline">
               <button type="submit" className="mt-4 bg-purple-500 text-white py-2 px-6 rounded-md hover:bg-purple-600 ">Enviar</button>

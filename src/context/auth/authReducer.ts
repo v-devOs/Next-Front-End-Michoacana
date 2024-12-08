@@ -1,8 +1,8 @@
-import { User } from "@/interfaces/general";
+import { UserClass } from "@/interfaces/general";
 import { AuthState } from "./AuthProvider";
 
 export type AuthActionType =
-  | { type: "Login"; payload: User }
+  | { type: "Login"; payload: UserClass }
   | { type: "Logout" };
 
 export const authReducer = (
