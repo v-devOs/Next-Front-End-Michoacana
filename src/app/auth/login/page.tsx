@@ -13,7 +13,7 @@ interface AuthData {
 }
 
 const LoginPage = () => {
-  const { isLoggedIn, loginUser } = useContext(AuthContext)
+  const { isLoggedIn, loginUser, user } = useContext(AuthContext)
   const [isloading, setIsloading] = useState(false);
   const router = useRouter()
 
@@ -31,15 +31,15 @@ const LoginPage = () => {
 
   }
 
-  // useEffect(() => {
-  //   if (isLoggedIn) {
+  useEffect(() => {
+    if (isLoggedIn) {
 
-  //     router.replace('/admin')
-  //   }
-  // }, [isLoggedIn, router])
+      router.replace('/admin')
+    }
+  }, [isLoggedIn, router, user?.employee.rol])
 
-  // if (isloading)
-  //   return <Loading />
+  if (isloading)
+    return <Loading />
 
   return (
 

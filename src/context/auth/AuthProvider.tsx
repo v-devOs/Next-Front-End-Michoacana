@@ -25,14 +25,6 @@ const Auth_INITIAL_STATE: AuthState = {
 export const AuthProvider: FC<Props> = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, Auth_INITIAL_STATE);
 
-  // useEffect(() => {
-  //   const token = Cookies.get('token');
-  //   if (token) {
-  //     // TODO: Hacer petición para validar token y obtener información del usuario
-  //     dispatch({ type: 'Login' });
-  //   }
-  // }, []);
-
   const loginUser = async (email: string, password: string): Promise<boolean> => {
     try {
       const data = await login(email, password);
