@@ -4,10 +4,26 @@ interface Props<T> {
   item: T,
   headers: string[],
   fieldsOmmit?: string[],
-  id: T[keyof T]
+  // id: T[keyof T]
 }
 
-export const TableItem = <T,>({ item, headers, fieldsOmmit, id }: Props<T>) => {
+
+const extractId = <T,>(item: T) => {
+  let id = ''
+
+  for (const key in item) {
+    if (key.includes('id')) {
+      id = String(item[key]) as string;
+    }
+  }
+
+  return id
+}
+export const TableItem = <T,>({ item, headers, fieldsOmmit }: Props<T>) => {
+
+  const id = extractId(item)
+
+
   return (
     <tr>
       {
@@ -20,7 +36,7 @@ export const TableItem = <T,>({ item, headers, fieldsOmmit, id }: Props<T>) => {
         ))
       }
 
-      <TableButtons id={id as string} />
+      <TableButtons id={id} />
 
     </tr>
   )

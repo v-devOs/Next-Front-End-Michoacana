@@ -31,15 +31,15 @@ const LoginPage = () => {
 
   }
 
-  useEffect(() => {
-    if (isLoggedIn) {
+  // useEffect(() => {
+  //   if (isLoggedIn) {
 
-      router.replace('/admin')
-    }
-  }, [isLoggedIn, router])
+  //     router.replace('/admin')
+  //   }
+  // }, [isLoggedIn, router])
 
-  if (isloading)
-    return <Loading />
+  // if (isloading)
+  //   return <Loading />
 
   return (
 

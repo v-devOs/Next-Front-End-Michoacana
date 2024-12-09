@@ -30,48 +30,39 @@ export const BranchForm = ({ title, data, isPostForm = true }: Props) => {
   const { register, handleSubmit, formState: { }, reset } = useForm<Branch>()
 
   const onSubmit = async (dataForm: Branch) => {
-
-    console.log({ dataForm })
-
     try {
-      if (searchParams.get('action') === 'update') {
+      const isUpdate = searchParams.get('action') === 'update'
 
-        const dataToSend: BranchPost = {
-          name: dataForm.name,
+      const baseData: BranchPost = {
+        name: dataForm.name,
+        hour_start: +dataForm.hour_start,
+        hour_end: +dataForm.hour_end,
+        id_contact: +dataForm.contact.email,
+      }
+
+      const dataToSend: BranchPost = isUpdate
+        ? {
+          ...baseData,
           date_start: dataForm.date_start,
-          hour_start: +dataForm.hour_start,
-          hour_end: +dataForm.hour_end,
-          id_contact: +dataForm.contact.email,
         }
-
-        console.log({ dataToSend })
-
-        await updateData<BranchPost>(dataToSend, 'branch', `${dataForm.id_branch}`)
-        Swal.fire({
-          title: 'Success',
-          text: 'Sucursal actualizada correctamente',
-          icon: 'success'
-        })
-      } else {
-
-        const dataToSend: BranchPost = {
-          name: dataForm.name,
+        : {
+          ...baseData,
           date_start: new Date().toISOString(),
-          hour_start: +dataForm.hour_start,
-          hour_end: +dataForm.hour_end,
-          id_contact: +dataForm.contact.email,
           id_direction: +dataForm.direction.street
         }
 
+      if (isUpdate) {
+        await updateData<BranchPost>(dataToSend, 'branch', `${dataForm.id_branch}`)
+      } else {
         await createData<BranchPost>(dataToSend, 'branch')
-        Swal.fire({
-          title: 'Success',
-          text: 'Sucursal creada correctamente',
-          icon: 'success'
-        })
-
         router.push('/admin/branch')
       }
+
+      Swal.fire({
+        title: 'Success',
+        text: `Sucursal ${isUpdate ? 'actualizada' : 'creada'} correctamente`,
+        icon: 'success'
+      })
 
     } catch (error) {
       Swal.fire({
@@ -79,7 +70,7 @@ export const BranchForm = ({ title, data, isPostForm = true }: Props) => {
         text: `Error al ${searchParams.get('action') ? 'actualizar' : 'crear'} sucursal`,
         icon: 'error'
       })
-      console.log('Error al crear registro', error)
+      console.log('Error al procesar registro:', error)
     }
   }
 

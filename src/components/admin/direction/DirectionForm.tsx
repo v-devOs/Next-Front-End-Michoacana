@@ -1,34 +1,70 @@
-import { Loading } from "@/components/ui"
-import { Direction } from "@/interfaces/admin"
+'use client'
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
+
+import Swal from 'sweetalert2'
+import { Loading } from "@/components/ui"
+import { Direction, DirectionPost } from "@/interfaces/admin"
+import { useSearchParams, useRouter } from "next/navigation"
+import { createData, updateData } from "@/actions/admin/crudActions"
 
 interface Props {
   title: string
   data?: Direction
+  isPostForm: boolean
 }
 
-export const DirectionForm = ({ title, data }: Props) => {
+export const DirectionForm = ({ title, data, isPostForm = true }: Props) => {
+
+  const router = useRouter()
+  const searchParams = useSearchParams()
 
   const {
     register,
     handleSubmit,
     reset
-  } = useForm<Direction>({
-    defaultValues: {
-      ...data
-    }
-  })
+  } = useForm<Direction>()
 
-  const onSubmit = (data: Direction) => {
-    console.log({ data }, 'Info formulario')
+  const onSubmit = async (dataForm: Direction) => {
+
+    const dataToSend: DirectionPost = {
+      active: dataForm.active,
+      street: dataForm.street,
+      zone: dataForm.zone
+    }
+
+    try {
+
+      const isUpdate = searchParams.get('action') === 'update'
+
+      if (isUpdate)
+        await updateData<DirectionPost>(dataToSend, 'direction', `${dataForm.id_direction}`)
+      else
+        await createData<DirectionPost>(dataForm, 'direction')
+
+      Swal.fire({
+        title: 'Succes',
+        text: `Dirección ${isUpdate ? 'actualizada' : 'creada'} correctamente`,
+        icon: 'success'
+      })
+
+      router.replace('/admin/direction')
+
+    } catch (error) {
+      console.log('Error al crear registro', error)
+      Swal.fire({
+        title: 'Error',
+        text: 'Error al crear dirección',
+        icon: 'error'
+      })
+    }
   }
 
   useEffect(() => {
     if (data) reset(data)
   }, [data, reset])
 
-  if (!data)
+  if (!data && isPostForm)
     return <Loading />
 
   return (

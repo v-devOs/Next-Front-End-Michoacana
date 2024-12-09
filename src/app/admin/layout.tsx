@@ -10,13 +10,13 @@ interface Props {
 }
 
 const AdminLayoutContent = ({ children }: Props) => {
-  const { isLoggedIn } = useContext(AuthContext)
+  // const { isLoggedIn } = useContext(AuthContext)
 
-  useEffect(() => {
-    if (!isLoggedIn) {
-      redirect('/auth/login')
-    }
-  }, [isLoggedIn])
+  // useEffect(() => {
+  //   if (!isLoggedIn) {
+  //     redirect('/auth/login')
+  //   }
+  // }, [isLoggedIn])
 
   return (
     <div className="grid grid-cols-12">

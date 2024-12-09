@@ -1,27 +1,62 @@
+'use client'
+
 import { Loading } from "@/components/ui"
-import { Contact } from "@/interfaces/admin"
+import { Contact, ContactPost } from "@/interfaces/admin"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
+import { useRouter, useSearchParams } from "next/navigation"
+import Swal from "sweetalert2"
+import { createData, updateData } from "@/actions/admin/crudActions"
 
 interface Props {
   title: string
   data?: Contact
+  isPostForm: boolean
 }
 
-export const ContactForm = ({ data, title }: Props) => {
+export const ContactForm = ({ data, title, isPostForm = true }: Props) => {
+  const router = useRouter()
+  const searchParams = useSearchParams()
 
   const {
     register,
     handleSubmit,
     reset
-  } = useForm<Contact>({
-    defaultValues: {
-      ...data
-    }
-  })
+  } = useForm<Contact>()
 
-  const onSubmit = (data: Contact) => {
-    console.log({ data })
+  const onSubmit = async (dataForm: Contact) => {
+    try {
+      const isUpdate = searchParams.get('action') === 'update'
+
+      const dataToSend: ContactPost = {
+        tel: dataForm.tel,
+        email: dataForm.email,
+        instagram: dataForm.instagram,
+        facebook: dataForm.facebook,
+        active: dataForm.active
+      }
+
+      if (isUpdate) {
+        await updateData<ContactPost>(dataToSend, 'contact', `${dataForm.id_contact}`)
+      } else {
+        await createData<ContactPost>(dataToSend, 'contact')
+        router.push('/admin/contact')
+      }
+
+      Swal.fire({
+        title: 'Success',
+        text: `Contacto ${isUpdate ? 'actualizado' : 'creado'} correctamente`,
+        icon: 'success'
+      })
+
+    } catch (error) {
+      Swal.fire({
+        title: 'Error',
+        text: `Error al ${searchParams.get('action') ? 'actualizar' : 'crear'} contacto`,
+        icon: 'error'
+      })
+      console.log('Error al procesar registro:', error)
+    }
   }
 
   useEffect(() => {
@@ -29,7 +64,7 @@ export const ContactForm = ({ data, title }: Props) => {
   }, [data, reset])
 
 
-  if (!data)
+  if (!data && isPostForm)
     return <Loading />
 
   return (

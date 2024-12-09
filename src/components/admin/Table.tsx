@@ -15,14 +15,14 @@ const getTableHeaders = <T,>(items: T[]) => {
   return headers;
 }
 
-const getIdFromItem = <T,>(items: T[], keyId: keyof T) => {
-  return items[0][keyId];
-};
+// const getIdFromItem = <T,>(items: T[], keyId: keyof T) => {
+//   return items[0][keyId];
+// };
 
 export const Table = <T,>({ items, fieldsOmmit }: Props<T>) => {
   const tableHeaders: string[] = getTableHeaders(items).concat(['acciones'])
   const keyIdItem = tableHeaders.find(header => header.includes('id')) as keyof T
-  const idItem = getIdFromItem(items, keyIdItem)
+  // const idItem = getIdFromItem(items, keyIdItem)
 
 
   return (
@@ -41,7 +41,7 @@ export const Table = <T,>({ items, fieldsOmmit }: Props<T>) => {
       <tbody>
         {
           items.map((item, idx) => (
-            <TableItem key={idx} item={item} id={idItem} headers={tableHeaders} fieldsOmmit={fieldsOmmit} />
+            <TableItem key={idx} item={item} headers={tableHeaders} fieldsOmmit={fieldsOmmit} />
           ))
         }
 

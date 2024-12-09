@@ -1,10 +1,10 @@
 'use client';
 
 
-import { deleteData } from "@/actions/admin/crudActions";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { FaPencil, FaTrash } from "react-icons/fa6";
+import { deleteData } from "@/actions/admin/crudActions";
 
 import Swal from 'sweetalert2'
 
@@ -15,7 +15,7 @@ interface Props {
 
 export const TableButtons = ({ id }: Props) => {
 
-
+  const router = useRouter()
   const path = usePathname()
 
   const onClickDeleteButton = async () => {
@@ -28,6 +28,8 @@ export const TableButtons = ({ id }: Props) => {
         text: 'Registro eliminado correctamente',
         icon: 'success'
       })
+
+      router.replace('admin/contact')
     } catch (error) {
 
       console.log(error)

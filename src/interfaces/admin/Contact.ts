@@ -6,3 +6,10 @@ export interface Contact {
   facebook: string;
   active: boolean;
 }
+export interface ContactPost {
+  tel: string;
+  email: string;
+  instagram: string;
+  facebook: string;
+  active: boolean;
+}
