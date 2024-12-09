@@ -11,7 +11,7 @@ import { createData, updateData } from "@/actions/admin/crudActions"
 interface Props {
   title: string
   data?: Direction
-  isPostForm: boolean
+  isPostForm?: boolean
 }
 
 export const DirectionForm = ({ title, data, isPostForm = true }: Props) => {

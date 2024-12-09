@@ -27,6 +27,20 @@ interface DetailedSale extends SaleDetails {
   };
 }
 
+// Añadir estas interfaces para el tipado de jsPDF
+interface AutoTableOptions {
+  startY: number;
+  head: string[][];
+  body: string[][];
+}
+
+interface JsPDFWithAutoTable extends jsPDF {
+  autoTable: (options: AutoTableOptions) => void;
+  lastAutoTable: {
+    finalY: number;
+  };
+}
+
 const AdminPage = () => {
   const { user } = useContext(AuthContext)
   const [data, setData] = useState<SaleDetails[] | null>(null)
@@ -95,7 +109,7 @@ const AdminPage = () => {
   }, [])
 
   const generatePDF = () => {
-    const doc = new jsPDF()
+    const doc = new jsPDF() as JsPDFWithAutoTable;
 
     // Encabezado
     doc.setFontSize(20)
@@ -118,11 +132,11 @@ const AdminPage = () => {
       item.ventas.toString()
     ])
 
-      ; (doc as any).autoTable({
-        startY: 100,
-        head: [['Mes', 'Cantidad de Ventas']],
-        body: monthlyTableData,
-      })
+    doc.autoTable({
+      startY: 100,
+      head: [['Mes', 'Cantidad de Ventas']],
+      body: monthlyTableData,
+    });
 
     // Tabla detallada de ventas
     const detailedTableData = detailedSales.map(sale => [
@@ -134,13 +148,13 @@ const AdminPage = () => {
       `$${(sale.quantity * (sale.product?.price || 0)).toFixed(2)}`
     ])
 
-      ; (doc as any).autoTable({
-        startY: (doc as any).lastAutoTable.finalY + 20,
-        head: [['Fecha', 'Producto', 'Precio Unit.', 'Vendedor', 'Cantidad', 'Total']],
-        body: detailedTableData,
-      })
+    doc.autoTable({
+      startY: doc.lastAutoTable.finalY + 20,
+      head: [['Fecha', 'Producto', 'Precio Unit.', 'Vendedor', 'Cantidad', 'Total']],
+      body: detailedTableData,
+    });
 
-    doc.save('reporte-ventas.pdf')
+    doc.save('reporte-ventas.pdf');
   }
 
   if (loading) return <Loading />

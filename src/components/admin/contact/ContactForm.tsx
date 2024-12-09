@@ -11,7 +11,7 @@ import { createData, updateData } from "@/actions/admin/crudActions"
 interface Props {
   title: string
   data?: Contact
-  isPostForm: boolean
+  isPostForm?: boolean
 }
 
 export const ContactForm = ({ data, title, isPostForm = true }: Props) => {
@@ -40,7 +40,7 @@ export const ContactForm = ({ data, title, isPostForm = true }: Props) => {
         await updateData<ContactPost>(dataToSend, 'contact', `${dataForm.id_contact}`)
       } else {
         await createData<ContactPost>(dataToSend, 'contact')
-        router.push('/admin/contact')
+        router.replace('/admin/contact')
       }
 
       Swal.fire({

@@ -16,9 +16,10 @@ import { getAllData } from "@/actions/general/getData"
 interface Props {
   title: string
   data?: Employee
+  isPostForm?: boolean
 }
 
-export const EmployeeForm = ({ title, data }: Props) => {
+export const EmployeeForm = ({ title, data, isPostForm = true }: Props) => {
   const [imgUrl, setImgUrl] = useState('')
   const [branches, setBranches] = useState<Branch[]>()
   const [storages, setStorages] = useState<Storage[]>()
@@ -110,7 +111,7 @@ export const EmployeeForm = ({ title, data }: Props) => {
     }
   }, [data, reset])
 
-  if (!data)
+  if (!data && isPostForm)
     return <Loading />
 
 
@@ -125,7 +126,7 @@ export const EmployeeForm = ({ title, data }: Props) => {
 
               <div className="flex-shrink-0 mb-4">
                 <Image
-                  src={data?.profile_picture_url || '/img/default-profile.png'}
+                  src={data?.profile_picture_url || '/img/icon.png'}
                   alt="Foto de perfil"
                   width={200}
                   height={200}
@@ -146,11 +147,11 @@ export const EmployeeForm = ({ title, data }: Props) => {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block font-semibold">No. Empleado</label>
+                {/* <label className="block font-semibold">No. Empleado</label>
                 <input
                   {...register('no_employee', { required: 'Este campo es requerido' })}
                   className='border w-full h-5 px-3 py-5 mb-4 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md'
-                />
+                /> */}
 
                 <label className="block font-semibold">Nombre</label>
                 <input

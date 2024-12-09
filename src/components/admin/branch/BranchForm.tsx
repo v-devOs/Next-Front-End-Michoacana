@@ -55,7 +55,7 @@ export const BranchForm = ({ title, data, isPostForm = true }: Props) => {
         await updateData<BranchPost>(dataToSend, 'branch', `${dataForm.id_branch}`)
       } else {
         await createData<BranchPost>(dataToSend, 'branch')
-        router.push('/admin/branch')
+        router.replace('/admin/branch')
       }
 
       Swal.fire({

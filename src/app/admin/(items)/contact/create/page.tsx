@@ -2,7 +2,7 @@ import { ContactForm } from "@/components/admin/contact"
 
 
 
-const AdminCreateBranch = () => {
+const AdminCreateContact = () => {
   return (
     <div>
       <ContactForm title="Crear Sucursal" isPostForm={false} />
@@ -10,4 +10,4 @@ const AdminCreateBranch = () => {
   )
 }
 
-export default AdminCreateBranch
+export default AdminCreateContact

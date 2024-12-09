@@ -14,7 +14,7 @@ export const Navbar = () => {
     <nav className="bg-mint-200 text-mint-800 shadow-lg py-4 px-2">
       <div className="container mx-auto flex justify-between items-center">
         <div className="text-2xl font-bold text-pink-500">
-          <a href="/" className="hover:text-pink-400 transition-colors">Paletería Michoacana 🍦</a>
+          <Link href={`/${path.includes('admin') || path.includes('sales') ? 'admin' : ''}`} className="hover:text-pink-400 transition-colors">Paletería Michoacana 🍦</Link>
         </div>
         <div className="flex space-x-6">
 
