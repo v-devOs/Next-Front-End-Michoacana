@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { FaHouse, FaPhone, FaStreetView, FaBox, FaUsers } from "react-icons/fa6";
+import { FaHouse, FaPhone, FaStreetView, FaBox, FaUsers, FaUser } from "react-icons/fa6";
 
 
 import { SidebarItem } from "./SidebarItem";
@@ -35,6 +35,11 @@ const sidebarItems: Item[] = [
     name: 'Productos',
     link: '/admin/product',
     icon: <FaBox />
+  },
+  {
+    name: 'Usuarios',
+    link: '/admin/user',
+    icon: <FaUser />
   },
 ]
 

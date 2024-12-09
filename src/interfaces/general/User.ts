@@ -9,4 +9,13 @@ export interface UserClass {
   id_user: number;
   email: string;
   employee: Employee;
+  active: boolean;
+  password?: string;
+}
+
+export interface UserPost {
+  email: string;
+  password: string;
+  id_employee: number;
+  active: boolean;
 }

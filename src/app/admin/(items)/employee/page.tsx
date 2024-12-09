@@ -13,8 +13,6 @@ const AdminEmployeePage = async () => {
 
   const data: Employee[] = await getAllData('employee')
 
-  console.log({ data })
-
   return (
 
     <div>

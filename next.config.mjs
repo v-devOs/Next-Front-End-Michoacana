@@ -10,6 +10,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "thispersondoesnotexist.com",
       },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
     ],
   },
 };

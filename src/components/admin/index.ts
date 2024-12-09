@@ -6,3 +6,4 @@ export * from "./dashboard";
 export * from "./SidebarItem";
 export * from "./Table";
 export * from "./TableItem";
+export * from "./user";

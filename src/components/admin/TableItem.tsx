@@ -10,10 +10,11 @@ interface Props<T> {
 
 const extractId = <T,>(item: T) => {
   let id = ''
-
+  let isFirstId = false
   for (const key in item) {
-    if (key.includes('id')) {
+    if (key.includes('id') && !isFirstId) {
       id = String(item[key]) as string;
+      isFirstId = true
     }
   }
 

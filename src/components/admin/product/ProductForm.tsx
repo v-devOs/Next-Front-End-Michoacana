@@ -1,35 +1,74 @@
-import { useEffect } from "react"
-import { useForm } from "react-hook-form"
+'use client'
+
+import { useEffect, useState, ChangeEvent } from "react"
+import { useSearchParams, useRouter } from "next/navigation"
 import Image from "next/image"
-import { ChangeEvent } from "react"
+import { useForm } from "react-hook-form"
+
+import Swal from 'sweetalert2'
 
 import { Loading } from "@/components/ui"
-import { Product } from "@/interfaces/admin"
+import { Product, ProductPost } from "@/interfaces/admin"
 import { uploadImage } from '../../../lib/cloudinary/index';
+import { createData, updateData } from "@/actions/admin/crudActions"
 
 interface Props {
   title: string,
-  data?: Product
+  data?: Product,
+  isPostForm: boolean
 }
 
-export const ProductForm = ({ title, data }: Props) => {
+export const ProductForm = ({ title, data, isPostForm = true }: Props) => {
+  const [imgUrl, setImgUrl] = useState('')
+  const searchParams = useSearchParams()
+  const router = useRouter()
+
   const {
     register,
     handleSubmit,
     reset
-  } = useForm<Product>({
-    defaultValues: {
-      ...data
+  } = useForm<Product>()
+
+  const onSubmit = async (dataForm: Product) => {
+    const isUpdate = searchParams.get('action') === 'update'
+    const dataToSend: ProductPost = {
+      active: dataForm.active,
+      description: dataForm.description,
+      flavor: dataForm.flavor,
+      presentation: dataForm.presentation,
+      price: +dataForm.price,
+      product: dataForm.product,
+      product_image_url: imgUrl,
+      type: dataForm.type
     }
-  })
 
-  const onSubmit = (data: Product) => {
-    console.log({ data })
+    console.log({ dataToSend })
+
+    try {
+
+
+      if (isUpdate)
+        await updateData<ProductPost>(dataToSend, 'product', `${dataForm.id_product}`)
+      else
+        await createData<ProductPost>(dataToSend, 'product')
+
+      Swal.fire({
+        title: 'Success',
+        text: `Prodcuto ${isUpdate ? 'actualizado' : 'creado'} correctamente`,
+        icon: 'success'
+      })
+
+      router.replace('/admin/product')
+
+    } catch (error) {
+      console.log('Error al crear prodcuto', error)
+      Swal.fire({
+        title: 'Error',
+        text: 'Error al crear producto',
+        icon: 'error'
+      })
+    }
   }
-
-  useEffect(() => {
-    if (data) reset(data)
-  }, [data, reset])
 
   const onFileSelected = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -38,13 +77,24 @@ export const ProductForm = ({ title, data }: Props) => {
     try {
       const publicId = await uploadImage(file);
       console.log('Imagen subida exitosamente:', publicId);
+      setImgUrl(publicId)
       // Aquí puedes actualizar el estado del formulario con la URL de la imagen
     } catch (error) {
       console.error('Error al subir la imagen:', error);
     }
   }
 
-  if (!data)
+  useEffect(() => {
+    if (data) {
+      reset(data)
+      if (data.product_image_url) {
+        setImgUrl(data.product_image_url)
+      }
+    }
+  }, [data, reset])
+
+
+  if (!data && isPostForm)
     return <Loading />
 
   return (
@@ -57,7 +107,7 @@ export const ProductForm = ({ title, data }: Props) => {
             <div className="flex gap-8 mb-6">
               <div className="flex-shrink-0 mb-4">
                 <Image
-                  src={'/img/icon.png'}
+                  src={data?.product_image_url || '/img/icon.png'}
                   alt="Imagen del producto"
                   width={200}
                   height={200}

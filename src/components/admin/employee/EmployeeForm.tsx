@@ -1,12 +1,15 @@
 'use client'
 
-import { useEffect } from "react"
+import { useEffect, useState, ChangeEvent } from "react"
+import { useSearchParams, useRouter } from "next/navigation"
 import Image from "next/image"
-
 import { useForm } from "react-hook-form"
+import Swal from 'sweetalert2'
 
 import { Loading } from "@/components/ui"
 import { Employee } from "@/interfaces/admin"
+import { uploadImage } from '../../../lib/cloudinary/index';
+import { createData, updateData } from "@/actions/admin/crudActions"
 
 
 interface Props {
@@ -15,23 +18,67 @@ interface Props {
 }
 
 export const EmployeeForm = ({ title, data }: Props) => {
+  const [imgUrl, setImgUrl] = useState('')
+  const searchParams = useSearchParams()
+  const router = useRouter()
 
   const {
     register,
     handleSubmit,
     reset
-  } = useForm<Employee>({
-    defaultValues: {
-      ...data
-    }
-  })
+  } = useForm<Employee>()
 
-  const onSubmit = (data: Employee) => {
-    console.log({ data })
+  const onSubmit = async (dataForm: Employee) => {
+    const isUpdate = searchParams.get('action') === 'update'
+    const dataToSend = {
+      ...dataForm,
+      profile_picture_url: imgUrl || dataForm.profile_picture_url
+    }
+
+    try {
+      if (isUpdate)
+        await updateData(dataToSend, 'employee', `${dataForm.id_employee}`)
+      else
+        await createData(dataToSend, 'employee')
+
+      Swal.fire({
+        title: 'Success',
+        text: `Empleado ${isUpdate ? 'actualizado' : 'creado'} correctamente`,
+        icon: 'success'
+      })
+
+      router.replace('/admin/employee')
+
+    } catch (error) {
+      console.log('Error al procesar empleado', error)
+      Swal.fire({
+        title: 'Error',
+        text: 'Error al procesar empleado',
+        icon: 'error'
+      })
+    }
+  }
+
+  const onFileSelected = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const publicId = await uploadImage(file);
+      console.log('Imagen subida exitosamente:', publicId);
+      setImgUrl(publicId)
+    } catch (error) {
+      console.error('Error al subir la imagen:', error);
+    }
   }
 
   useEffect(() => {
-    if (data) reset(data)
+    if (data) {
+      reset(data)
+      if (data.profile_picture_url) {
+        setImgUrl(data.profile_picture_url)
+      }
+    }
   }, [data, reset])
 
   if (!data)
@@ -58,12 +105,13 @@ export const EmployeeForm = ({ title, data }: Props) => {
               </div>
 
               <div className="flex-1">
-                <label className="block font-semibold mb-2">Foto de Perfil</label>
+                <label className="block font-semibold mb-2">Seleccionar imagen</label>
                 <input
-                  {...register('profile_picture_url')}
-                  className='border w-full h-5 px-3 py-5 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md'
+                  type="file"
+                  accept="image/png, image/jpeg, image/gif"
+                  onChange={onFileSelected}
+                  className='border w-full px-3 py-2 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md'
                 />
-
               </div>
             </div>
 
