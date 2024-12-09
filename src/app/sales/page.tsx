@@ -1,11 +1,16 @@
 'use client'
 
+import React, { useContext, useEffect, useState } from 'react'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+
+import Swal from 'sweetalert2'
+
 import { createData } from '@/actions/admin/crudActions'
 import { getAllData } from '@/actions/general/getData'
 import { Loading } from '@/components/ui'
+import { AuthContext } from '@/context/auth'
 import { Product } from '@/interfaces/admin'
-import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
 
 interface ProductWithQuantity extends Product {
   quantity: number;
@@ -19,17 +24,56 @@ interface Sale {
 }
 
 const SalesPage = () => {
-  const [productsToGenSale, setProductsToGenSale] = useState<ProductWithQuantity[]>([])
+
   const [products, setProducts] = useState<Product[]>()
+  const [isLoading, setIsLoading] = useState(false)
+  const { user } = useContext(AuthContext)
+  const router = useRouter()
+  const [productsToGenSale, setProductsToGenSale] = useState<ProductWithQuantity[]>([])
+
+
 
   const generateSale = async () => {
+    setIsLoading(c => !c)
     try {
+      // Crear un array de ventas basado en los productos seleccionados
+      const sales: Sale[] = productsToGenSale.map(product => ({
+        date: new Date(),
+        quantity: product.quantity,
+        id_employee: user?.employee.id_employee || 0,
+        id_product: product.id_product,
+      }));
 
+      // Crear un array de promesas para crear cada venta
+      const salePromises = sales.map(sale =>
+        createData<Sale>(sale, 'sale-details')
+      );
+
+      // Ejecutar todas las promesas
+      await Promise.all(salePromises);
+
+      // Limpiar el carrito después de crear las ventas
+      setProductsToGenSale([]);
+
+      Swal.fire({
+        title: 'Success',
+        text: 'Ordenes de compra creadas correctamente',
+        icon: 'success'
+      })
+
+      setIsLoading(c => !c)
 
 
     } catch (error) {
       console.log('Error al crear venta', error)
 
+      Swal.fire({
+        title: 'Error',
+        text: 'Error al crear ordenes de compra',
+        icon: 'error'
+      })
+
+      setIsLoading(c => !c)
     }
   }
 
@@ -65,6 +109,12 @@ const SalesPage = () => {
   }
 
   useEffect(() => {
+    if (!user) {
+      router.push('/auth/login')
+    }
+  }, [user, router])
+
+  useEffect(() => {
     const loadProducts = async () => {
       const data = await getAllData('product')
       setProducts(data)
@@ -73,21 +123,20 @@ const SalesPage = () => {
     loadProducts()
   }, [])
 
-  if (!products) return <Loading />
+  if (!products || isLoading) return <Loading />
 
   return (
     <div className="p-4">
       <div className="bg-white rounded-lg shadow-md p-4 mb-6">
         <h1 className="text-2xl font-bold mb-2">Ventas</h1>
         <div className="text-gray-600">
-
+          <p>Usuario: {user?.employee.no_employee}</p>
+          <p>Empleado: {user?.employee.name} {user?.employee.surname}</p>
           <p>Fecha: <span className="font-medium text-gray-800">
             {new Date().toLocaleDateString('es-ES', {
               year: 'numeric',
               month: 'long',
               day: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit'
             })}
           </span></p>
         </div>
@@ -183,6 +232,14 @@ const SalesPage = () => {
                 ${productsToGenSale.reduce((acc, item) => acc + (item.price * item.quantity), 0).toFixed(2)}
               </p>
             </div>
+          </div>
+          <div className="flex justify-end mt-4">
+            <button
+              onClick={generateSale}
+              className="bg-purple-600 text-white font-bold py-2 px-4 rounded-md hover:bg-purple-700 transition-colors"
+            >
+              Generar Venta
+            </button>
           </div>
         </div>
       )}

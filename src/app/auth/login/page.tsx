@@ -32,10 +32,11 @@ const LoginPage = () => {
   }
 
   useEffect(() => {
-    if (isLoggedIn) {
-
+    if (isLoggedIn && user?.employee.rol.includes('Admin')) {
       router.replace('/admin')
     }
+    if (isLoggedIn && user?.employee.rol.includes('Empleado'))
+      router.replace('/sales')
   }, [isLoggedIn, router, user?.employee.rol])
 
   if (isloading)

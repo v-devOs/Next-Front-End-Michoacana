@@ -7,6 +7,8 @@ export const getDataByid = async (endpoint: string, id: string) => {
   if (!urlBackend) throw new Error("Error on construct url backend");
   const urlApi = `${urlBackend}/${endpoint}/${id}`;
 
+  console.log(urlApi);
+
   const res = await fetch(urlApi, {
     cache: "no-cache",
   });

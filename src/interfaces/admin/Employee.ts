@@ -21,3 +21,17 @@ export interface Storage {
   id_storage: number;
   active: boolean;
 }
+
+export interface EmployeePost {
+  gender: string;
+  name: string;
+  surname: string;
+  second_surname: string;
+  date_end?: string;
+  tel: string;
+  profile_picture_url: string;
+  active: boolean;
+  rol: string;
+  id_branch: number;
+  id_storage: number;
+}

@@ -7,9 +7,10 @@ import { useForm } from "react-hook-form"
 import Swal from 'sweetalert2'
 
 import { Loading } from "@/components/ui"
-import { Employee } from "@/interfaces/admin"
+import { Branch, Employee, EmployeePost, Storage } from "@/interfaces/admin"
 import { uploadImage } from '../../../lib/cloudinary/index';
 import { createData, updateData } from "@/actions/admin/crudActions"
+import { getAllData } from "@/actions/general/getData"
 
 
 interface Props {
@@ -19,6 +20,8 @@ interface Props {
 
 export const EmployeeForm = ({ title, data }: Props) => {
   const [imgUrl, setImgUrl] = useState('')
+  const [branches, setBranches] = useState<Branch[]>()
+  const [storages, setStorages] = useState<Storage[]>()
   const searchParams = useSearchParams()
   const router = useRouter()
 
@@ -30,16 +33,26 @@ export const EmployeeForm = ({ title, data }: Props) => {
 
   const onSubmit = async (dataForm: Employee) => {
     const isUpdate = searchParams.get('action') === 'update'
-    const dataToSend = {
-      ...dataForm,
-      profile_picture_url: imgUrl || dataForm.profile_picture_url
+
+    console.log({ dataForm })
+    const dataToSend: EmployeePost = {
+      profile_picture_url: imgUrl || dataForm.profile_picture_url,
+      active: dataForm.active,
+      gender: dataForm.gender,
+      id_branch: +dataForm.branch,
+      id_storage: +dataForm.storage,
+      name: dataForm.name,
+      second_surname: dataForm.second_surname,
+      rol: dataForm.rol,
+      surname: dataForm.surname,
+      tel: dataForm.tel
     }
 
     try {
       if (isUpdate)
-        await updateData(dataToSend, 'employee', `${dataForm.id_employee}`)
+        await updateData<EmployeePost>(dataToSend, 'employee', `${dataForm.id_employee}`)
       else
-        await createData(dataToSend, 'employee')
+        await createData<EmployeePost>(dataToSend, 'employee')
 
       Swal.fire({
         title: 'Success',
@@ -71,6 +84,22 @@ export const EmployeeForm = ({ title, data }: Props) => {
       console.error('Error al subir la imagen:', error);
     }
   }
+
+  useEffect(() => {
+    const loadBranches = async () => {
+      const data = await getAllData('branch')
+      setBranches(data)
+    }
+
+    const loadStorages = async () => {
+      const data = await getAllData('storage')
+      setStorages(data)
+    }
+    loadBranches()
+    loadStorages()
+
+  }, [])
+
 
   useEffect(() => {
     if (data) {
@@ -169,8 +198,6 @@ export const EmployeeForm = ({ title, data }: Props) => {
 
               <option value="Empleado">Empleado</option>
               <option value="Admin">Admin</option>
-              <option value="Supervisor">Supervisor</option>
-              <option value="Cajero">Cajero</option>
             </select>
 
             <label className="block font-semibold">Activo</label>
@@ -179,6 +206,26 @@ export const EmployeeForm = ({ title, data }: Props) => {
               type="checkbox"
               className="border h-5 px-3 py-5 mb-4 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-"
             />
+
+            <label className="block font-semibold">Branch</label>
+            <select
+              {...register('branch', { required: 'Este campo es requerido' })}
+              className='border w-full h-12 px-3 mb-4 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md'
+            >
+              {branches?.map(branch => (
+                <option key={branch.id_branch} value={branch.id_branch}>{branch.name}</option>
+              ))}
+            </select>
+
+            <label className="block font-semibold">Storage</label>
+            <select
+              {...register('storage', { required: 'Este campo es requerido' })}
+              className='border w-full h-12 px-3 mb-4 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md'
+            >
+              {storages?.map(storage => (
+                <option key={storage.id_storage} value={storage.id_storage}>{storage.id_storage}</option>
+              ))}
+            </select>
 
             <div className="flex justify-between items-baseline">
               <button type="submit" className="mt-4 bg-purple-500 text-white py-2 px-6 rounded-md hover:bg-purple-600 ">Actualizar</button>
