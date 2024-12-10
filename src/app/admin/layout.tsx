@@ -17,7 +17,7 @@ const AdminLayoutContent = ({ children }: Props) => {
     }
 
     if (isLoggedIn && user?.employee.rol !== 'Admin')
-      redirect('/auth/sales')
+      redirect('/sales')
   }, [isLoggedIn, user?.employee.rol])
 
   return (
